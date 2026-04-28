@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'upload',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -148,3 +150,26 @@ STATIC_URL = 'static/'
 # Based on your Docker volumes, Nginx is looking at /code/static.
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+
+
+CSRF_TRUSTED_ORIGINS = ['http://43.201.13.152:8080']
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
+    },
+}
+
+
+AWS_ACCESS_KEY_ID=os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY=os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME=os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME=os.getenv("AWS_S3_REGION_NAME")
+AWS_S3_SIGNATURE_VERSION='s3v4'
+
+
+
+print(f"DEBUG: {AWS_ACCESS_KEY_ID}")
