@@ -19,6 +19,9 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# for mysql migration 
+import pymysql
+pymysql.install_as_MySQLdb()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -29,7 +32,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['43.201.13.152', 'localhost']
+ALLOWED_HOSTS = ['43.201.13.152', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -79,8 +82,14 @@ WSGI_APPLICATION = 'django_docker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'rdsdb',
+        'USER': 'django',
+        'PASSWORD': os.getenv('LOCAL_RDSDB_PASSWORD'),
+        # 'HOST':'localhost',
+        'HOST':'django-post.crw6u22w4deh.ap-northeast-2.rds.amazonaws.com',
+        'PORT':'3306'
     }
 }
 
@@ -138,3 +147,4 @@ STATIC_URL = 'static/'
 # The folder where Django gathers everything for Nginx (Must be a DIFFERENT name/path)
 # Based on your Docker volumes, Nginx is looking at /code/static.
 STATIC_ROOT = BASE_DIR / "staticfiles"
+

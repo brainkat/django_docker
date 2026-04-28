@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Post List</title>
+    </head>
+
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <td>NO.</td>
+                    <td>ID</td>
+                    <td>title</td>
+                    <td>content</td>
+                    <td>date posted</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% if posts %}
+                {% for post in posts %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <!-- {# comment %} <td>{{forloop.counter0}}</td> {% endcomment #} -->
+                    <!-- {# comment %} <td>{{forloop.first}}</td> {% endcomment #} -->
+                    <!-- {# comment %} <td>{{forloop.last}}</td> {% endcomment #} -->
+                    <!-- {# comment %} <td>{{forloop.revcounter}}</td> {% endcomment #} -->
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.content }}</td>
+                    <td>{{ post.created_at }}</td>
+                    <td>
+                        <form action="{% url 'delete_post' post_id=post.id %}">
+                            {% csrf_token %}
+                            <button>삭제</button>
+                        </form>
+                    </td>
+                </tr> {% empty %}
+                <tr>
+                    <td colspan="6">No posts available.</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        <form action="{% url 'create_post' %}">
+            {% csrf_token %}
+            <button>create post</button>
+        </form>
+
+    </body>
+
+</html>
