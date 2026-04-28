@@ -9,8 +9,8 @@
 
     <body>
         {% for img in images %}
-        <p>{{ imgtitle }}</p>
-        <img src="" {{ img.get_presigned_url }} width="300" />
+        <p>{{ img.title }}</p>
+        <img src=" {{ img.get_presigned_url }}" width="300" />
         {% endfor %}
 
     </body>
